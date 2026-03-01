@@ -240,11 +240,11 @@ export default function HeroSection() {
                             </div>
 
                             <motion.div
-                                className="absolute inset-0 will-change-transform"
+                                className="absolute inset-0"
                                 animate={{ rotate: 360 }}
-                                transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+                                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
                             >
-                                {techOrbit.slice(0, 4).map((tech, i) => {
+                                {techOrbit.map((tech, i) => {
                                     const angle = (i / techOrbit.length) * 360;
                                     const radius = typeof window !== 'undefined' && window.innerWidth >= 768 ? 155 : 120;
                                     const x = Math.cos((angle * Math.PI) / 180) * radius;
@@ -274,11 +274,11 @@ export default function HeroSection() {
                             </motion.div>
 
                             <motion.div
-                                className="absolute inset-0 will-change-transform"
+                                className="absolute inset-0"
                                 animate={{ rotate: -360 }}
-                                transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+                                transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
                             >
-                                {[0, 90].map((deg) => {
+                                {[0, 90, 180, 270].map((deg) => {
                                     const r = typeof window !== 'undefined' && window.innerWidth >= 768 ? 185 : 145;
                                     const dx = Math.cos((deg * Math.PI) / 180) * r;
                                     const dy = Math.sin((deg * Math.PI) / 180) * r;
