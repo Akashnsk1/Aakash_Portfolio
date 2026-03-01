@@ -253,7 +253,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         </main>
         <Footer />
 
-        <script is:inline data-astro-rerun>
+        <script is:inline>
             // --- Cursor Glow Follow ---
             const glow = document.getElementById("cursor-glow");
             if (glow && window.matchMedia("(pointer: fine)").matches) {
