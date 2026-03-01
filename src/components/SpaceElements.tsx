@@ -13,12 +13,12 @@ function Astronaut() {
         >
             <motion.div
                 animate={{
-                    y: [0, -40, 10, -25, 0],
-                    x: [0, 20, -10, 15, 0],
-                    rotate: [0, 6, -3, 4, 0],
+                    y: [0, -50, 15, -35, 10, -20, 0],
+                    x: [0, 25, -15, 30, -10, 20, 0],
+                    rotate: [0, 8, -5, 12, -8, 5, 0],
                 }}
-                transition={{ duration: 40, repeat: Infinity, ease: 'easeInOut' }}
-                className="will-change-transform"
+                transition={{ duration: 28, repeat: Infinity, ease: 'easeInOut' }}
+                className="relative"
             >
                 <div className="relative">
                     {/* Tether line with glow */}
@@ -49,20 +49,29 @@ function Astronaut() {
                         {/* Visor shine */}
                         <ellipse cx="20" cy="12" rx="3" ry="2.5" fill="white" opacity="0.35"/>
                         {/* Visor reflection line */}
-                        <ellipse cx="28" cy="18" rx="2" ry="1" fill="white" opacity="0.15" />
+                        <motion.ellipse
+                            cx="28" cy="18" rx="2" ry="1"
+                            fill="white" opacity="0.15"
+                            animate={{ opacity: [0.15, 0.4, 0.15] }}
+                            transition={{ duration: 3, repeat: Infinity }}
+                        />
                         {/* Body */}
                         <rect x="12" y="29" width="24" height="18" rx="6" fill="#e0e0e6" stroke="#c0c0c8" strokeWidth="1"/>
                         {/* Backpack */}
                         <rect x="8" y="31" width="5" height="14" rx="2" fill="#c8c8d0" stroke="#b0b0b8" strokeWidth="0.8"/>
                         {/* Jetpack flames */}
-                        <g opacity="0.7" style={{ transformOrigin: '10px 45px' }}>
+                        <motion.g
+                            animate={{ opacity: [0.6, 1, 0.6], scaleY: [0.8, 1.2, 0.8] }}
+                            transition={{ duration: 0.4, repeat: Infinity }}
+                            style={{ transformOrigin: '10px 45px' }}
+                        >
                             <ellipse cx="10" cy="48" rx="2" ry="4" fill="url(#flame-grad)" opacity="0.7"/>
                             <ellipse cx="10" cy="50" rx="1" ry="2" fill="#ff6b00" opacity="0.9"/>
-                        </g>
+                        </motion.g>
                         {/* Left arm */}
                         <motion.g
-                            animate={{ rotate: [0, 15, 0] }}
-                            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+                            animate={{ rotate: [0, 20, -10, 15, 0] }}
+                            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
                             style={{ transformOrigin: '12px 34px' }}
                         >
                             <rect x="2" y="32" width="11" height="5" rx="2.5" fill="#e0e0e6" stroke="#c0c0c8" strokeWidth="0.8"/>
@@ -70,8 +79,8 @@ function Astronaut() {
                         </motion.g>
                         {/* Right arm — waving */}
                         <motion.g
-                            animate={{ rotate: [0, -20, 0] }}
-                            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                            animate={{ rotate: [0, -25, 15, -20, 10, 0] }}
+                            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
                             style={{ transformOrigin: '36px 34px' }}
                         >
                             <rect x="35" y="32" width="11" height="5" rx="2.5" fill="#e0e0e6" stroke="#c0c0c8" strokeWidth="0.8"/>
@@ -80,29 +89,31 @@ function Astronaut() {
                         {/* Left leg */}
                         <motion.rect
                             x="14" y="45" width="7" height="10" rx="3" fill="#e0e0e6" stroke="#c0c0c8" strokeWidth="0.8"
-                            animate={{ rotate: [0, 3, 0] }}
-                            transition={{ duration: 10, repeat: Infinity }}
+                            animate={{ rotate: [0, 5, -3, 0] }}
+                            transition={{ duration: 6, repeat: Infinity }}
                             style={{ transformOrigin: '17px 45px' }}
                         />
                         {/* Right leg */}
                         <motion.rect
                             x="27" y="45" width="7" height="10" rx="3" fill="#e0e0e6" stroke="#c0c0c8" strokeWidth="0.8"
-                            animate={{ rotate: [0, -3, 0] }}
-                            transition={{ duration: 10, repeat: Infinity }}
+                            animate={{ rotate: [0, -5, 3, 0] }}
+                            transition={{ duration: 6, repeat: Infinity, delay: 0.5 }}
                             style={{ transformOrigin: '30px 45px' }}
                         />
                         {/* Chest light — pulsing */}
-                        <circle
+                        <motion.circle
                             cx="24" cy="36" r="2.5"
-                            fill="#ed7b0f"
+                            animate={{ fill: ['#ed7b0f', '#f09332', '#22c53e', '#ed7b0f'], r: [2.5, 3, 2.5] }}
+                            transition={{ duration: 3, repeat: Infinity }}
                         />
                         {/* Chest light glow */}
-                        <circle
+                        <motion.circle
                             cx="24" cy="36" r="5"
                             fill="none"
                             stroke="#ed7b0f"
                             strokeWidth="0.5"
-                            opacity="0.4"
+                            animate={{ r: [5, 8, 5], opacity: [0.3, 0, 0.3] }}
+                            transition={{ duration: 2, repeat: Infinity }}
                         />
                         <defs>
                             <linearGradient id="visor-grad2" x1="15" y1="8" x2="33" y2="22">
@@ -121,16 +132,22 @@ function Astronaut() {
 
                     {/* Floating oxygen bubbles */}
                     {[0, 1, 2].map(i => (
-                        <div
+                        <motion.div
                             key={i}
-                            className="absolute rounded-full border border-white/10"
+                            className="absolute rounded-full border border-white/20"
                             style={{
                                 width: 3 + i * 2,
                                 height: 3 + i * 2,
                                 left: 20 + i * 12,
                                 top: 10,
-                                opacity: 0.3,
                             }}
+                            animate={{
+                                y: [-10, -40 - i * 15],
+                                x: [0, (i - 1) * 8],
+                                opacity: [0.4, 0],
+                                scale: [1, 1.5],
+                            }}
+                            transition={{ duration: 3 + i, repeat: Infinity, delay: i * 1.2 }}
                         />
                     ))}
                 </div>
@@ -790,36 +807,36 @@ function NebulaCloud() {
     return (
         <>
             <motion.div
-                className="fixed z-[0] pointer-events-none select-none hidden lg:block will-change-transform"
+                className="fixed z-[0] pointer-events-none select-none hidden lg:block"
                 style={{ top: '10%', right: '30%' }}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.12 }}
+                animate={{ opacity: 0.15 }}
                 transition={{ delay: 3, duration: 3 }}
             >
                 <motion.div
-                    animate={{ scale: [1, 1.08, 1] }}
-                    transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }}
+                    animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
                 >
                     <div
                         className="w-48 h-32 rounded-full blur-3xl"
-                        style={{ background: 'radial-gradient(ellipse, rgba(109,40,217,0.2) 0%, rgba(236,72,153,0.05) 50%, transparent 80%)' }}
+                        style={{ background: 'radial-gradient(ellipse, rgba(109,40,217,0.3) 0%, rgba(236,72,153,0.1) 50%, transparent 80%)' }}
                     />
                 </motion.div>
             </motion.div>
             <motion.div
-                className="fixed z-[0] pointer-events-none select-none hidden lg:block will-change-transform"
+                className="fixed z-[0] pointer-events-none select-none hidden lg:block"
                 style={{ bottom: '5%', right: '20%' }}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.08 }}
+                animate={{ opacity: 0.1 }}
                 transition={{ delay: 4, duration: 3 }}
             >
                 <motion.div
-                    animate={{ scale: [1, 1.12, 1] }}
-                    transition={{ duration: 40, repeat: Infinity, ease: 'easeInOut' }}
+                    animate={{ scale: [1, 1.15, 1] }}
+                    transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
                 >
                     <div
                         className="w-36 h-24 rounded-full blur-3xl"
-                        style={{ background: 'radial-gradient(ellipse, rgba(14,165,233,0.2) 0%, rgba(34,197,94,0.05) 50%, transparent 80%)' }}
+                        style={{ background: 'radial-gradient(ellipse, rgba(14,165,233,0.25) 0%, rgba(34,197,94,0.08) 50%, transparent 80%)' }}
                     />
                 </motion.div>
             </motion.div>
@@ -833,6 +850,14 @@ export default function SpaceElements() {
         <>
             <NebulaCloud />
             <Astronaut />
+            <Satellite />
+            <BlackHole />
+            <Comet />
+            <UFO />
+            <Wormhole />
+            <SpaceStation />
+            <Planets />
+            <SpaceDebris />
         </>
     );
 }
