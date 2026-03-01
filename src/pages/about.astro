@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AboutSection from "../components/AboutSection";
+import ProfileCard from "../components/ProfileCard";
+---
+
+<Layout
+    title="About Akash | Cloud & DevOps Engineer"
+    description="Learn more about Akash, a Cloud Engineer with expertise in AWS, Kubernetes, Docker, automation, and backend system architecture. Based in India."
+>
+    <div class="pt-28 pb-24 md:pb-32">
+        <div class="mx-auto max-w-7xl px-6 md:px-12 lg:px-24 xl:px-32">
+            <div
+                class="grid lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] gap-10 lg:gap-16 items-start"
+            >
+                <!-- Left: Sticky profile card -->
+                <div class="lg:sticky lg:top-28">
+                    <ProfileCard client:load />
+                </div>
+                <!-- Right: About content -->
+                <div>
+                    <AboutSection client:load />
+                </div>
+            </div>
+        </div>
+    </div>
+</Layout>

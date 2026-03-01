@@ -1,0 +1,153 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths(): Promise<any[]> {
+    const projects: any[] = await Astro.glob<Record<string, any>>(
+        "../../content/projects/*.md",
+    );
+    return projects.map((proj: any) => ({
+        params: { slug: proj.frontmatter.slug as string },
+        props: { project: proj },
+    }));
+}
+
+const { project } = Astro.props;
+const { Content, frontmatter } = project;
+---
+
+<Layout
+    title={`${frontmatter.title} | Akash Portfolio`}
+    description={frontmatter.subtitle}
+    type="article"
+>
+    <section class="py-32 section-padding mx-auto max-w-[900px]">
+        {/* Header Block */}
+        <div
+            class="mb-12 border-b border-neutral-200/50 dark:border-neutral-800/50 pb-10"
+        >
+            <a
+                href="/projects"
+                class="inline-flex items-center text-primary-500 font-mono text-xs tracking-widest uppercase hover:underline underline-offset-4 mb-6 transition-all"
+            >
+                ← Return to Projects
+            </a>
+            <h1
+                class="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight tracking-tight text-neutral-900 dark:text-white"
+            >
+                {frontmatter.title}
+            </h1>
+            <p
+                class="text-xl sm:text-2xl text-neutral-500 dark:text-neutral-400 font-medium mb-8 font-sans"
+            >
+                {frontmatter.subtitle}
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+                {
+                    frontmatter.tech.map((tech: string) => (
+                        <span class="px-3.5 py-1.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 font-mono text-xs rounded-lg border border-neutral-200/60 dark:border-neutral-700/60 shadow-sm">
+                            {tech}
+                        </span>
+                    ))
+                }
+            </div>
+        </div>
+
+        {
+            /* Markdown Content rendered specifically bypassing default resets beautifully */
+        }
+        <div
+            class="space-y-6 text-neutral-700 dark:text-neutral-300 text-base sm:text-lg leading-relaxed antialiased font-serif markdown-content"
+        >
+            <Content />
+        </div>
+
+        {/* Call to action */}
+        <div
+            class="mt-20 flex justify-between items-center bg-primary-500/5 backdrop-blur-md p-6 sm:p-8 border border-primary-500/20 rounded-2xl shadow-lg"
+        >
+            <div class="flex flex-col gap-2">
+                <h3
+                    class="font-heading font-semibold text-lg sm:text-xl text-neutral-900 dark:text-white"
+                >
+                    Impressed by this project?
+                </h3>
+                <p class="text-sm font-mono text-neutral-500">
+                    Reach out for collaborations.
+                </p>
+            </div>
+            <a
+                href="/contact"
+                class="px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-mono text-[11px] sm:text-[13px] uppercase tracking-widest font-bold hover:shadow-[0_0_20px_rgba(109,40,217,0.4)] rounded-xl transition-all hover:scale-105 active:scale-95 shadow-md shadow-primary-500/20"
+            >
+                Let's Connect
+            </a>
+        </div>
+    </section>
+</Layout>
+
+<style is:global>
+    /* Styling for the Markdown content rendered into Astro directly inside the layout */
+    .markdown-content h1,
+    .markdown-content h2,
+    .markdown-content h3 {
+        color: var(--color-foreground, inherit);
+        font-family: "Outfit", sans-serif;
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        line-height: 1.25;
+        letter-spacing: -0.025em;
+    }
+
+    .markdown-content h2 {
+        font-size: 1.75rem;
+    }
+    .markdown-content h3 {
+        font-size: 1.35rem;
+    }
+
+    .markdown-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .markdown-content ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin-bottom: 2rem;
+    }
+
+    .markdown-content li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .markdown-content li::before {
+        content: "▹";
+        position: absolute;
+        left: 0;
+        color: #8b5cf6;
+        font-size: 1em;
+    }
+
+    .markdown-content blockquote {
+        border-left: 4px solid #8b5cf6;
+        padding-left: 1.25rem;
+        font-style: italic;
+        color: #737373;
+        background: rgba(139, 92, 246, 0.05);
+        padding-block: 1rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .markdown-content code {
+        font-family: monospace;
+        background-color: rgba(150, 150, 150, 0.15);
+        padding: 0.2em 0.4em;
+        border-radius: 0.25rem;
+        font-size: 0.85em;
+    }
+</style>

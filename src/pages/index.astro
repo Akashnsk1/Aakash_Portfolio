@@ -1,0 +1,21 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HeroSection from "../components/HeroSection";
+import MarqueeSection from "../components/MarqueeSection";
+import AboutPreview from "../components/AboutPreview";
+import FeaturedProjects from "../components/FeaturedProjects";
+import TechStackSection from "../components/TechStackSection";
+import CTASection from "../components/CTASection";
+---
+
+<Layout
+	title="Akash | Cloud Engineer & DevOps Specialist"
+	description="Akash is an Associate Software Engineer specializing in Cloud Infrastructure, DevOps, CI/CD, and Full-Stack Development. Explore my projects and contact me for freelance work."
+>
+	<HeroSection client:load />
+	<MarqueeSection client:visible />
+	<AboutPreview client:visible />
+	<FeaturedProjects client:visible />
+	<TechStackSection client:visible />
+	<CTASection client:visible />
+</Layout>

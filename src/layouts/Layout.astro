@@ -1,0 +1,378 @@
+---
+import "../styles/global.css";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import SpaceElements from "../components/SpaceElements";
+import RobotAssistant from "../components/RobotAssistant";
+import LoadingScreen from "../components/LoadingScreen";
+import { ViewTransitions } from "astro:transitions";
+
+interface Props {
+    title: string;
+    description?: string;
+    image?: string;
+    type?: "website" | "article";
+}
+
+const {
+    title,
+    description = "Akash — Associate Software Engineer specializing in Cloud & DevOps. Expertise in scalable infrastructure, CI/CD, and full-stack development.",
+    image = "/logo.webp",
+    type = "website",
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#0F0F0E" />
+        <!-- SEO & Metadata -->
+        <link rel="canonical" href={canonicalURL} />
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta name="description" content={description} />
+        <meta
+            name="keywords"
+            content="Akash, DevOps, Cloud Engineer, Associate Software Engineer, CI/CD, Infrastructure, Kubernetes, React, Astro"
+        />
+        <meta name="author" content="Akash" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content={type} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={new URL(image, Astro.site)} />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalURL} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={new URL(image, Astro.site)} />
+
+        <!-- Font Preloads / Preconnects for faster loading -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="icon" type="image/webp" href="/logo.webp" />
+        <ViewTransitions />
+    </head>
+    <body
+        class="min-h-screen bg-surface-light dark:bg-surface-dark text-neutral-900 dark:text-neutral-100 transition-colors duration-500"
+    >
+        <LoadingScreen client:only="react" transition:persist />
+        <RobotAssistant client:only="react" transition:persist />
+
+        <!-- Viewport frame -->
+        <div class="viewport-frame" aria-hidden="true">
+            <div class="viewport-frame__edge viewport-frame__edge--top"></div>
+            <div class="viewport-frame__edge viewport-frame__edge--bottom">
+            </div>
+            <div class="viewport-frame__edge viewport-frame__edge--left"></div>
+            <div class="viewport-frame__edge viewport-frame__edge--right"></div>
+            <div class="viewport-frame__corner viewport-frame__corner--tl">
+            </div>
+            <div class="viewport-frame__corner viewport-frame__corner--tr">
+            </div>
+            <div class="viewport-frame__corner viewport-frame__corner--bl">
+            </div>
+            <div class="viewport-frame__corner viewport-frame__corner--br">
+            </div>
+        </div>
+
+        <!-- Nebula ambient background -->
+        <div class="aurora-bg" aria-hidden="true" transition:persist>
+            <div
+                class="aurora-blob w-[600px] h-[600px] -top-[200px] -left-[200px]"
+                style="background: #6d28d9;"
+            >
+            </div>
+            <div
+                class="aurora-blob w-[500px] h-[500px] -bottom-[150px] -right-[150px]"
+                style="background: #0ea5e9;"
+            >
+            </div>
+            <div
+                class="aurora-blob w-[400px] h-[400px] top-1/2 left-1/3"
+                style="background: #ec4899;"
+            >
+            </div>
+        </div>
+
+        <!-- Cursor glow -->
+        <div
+            id="cursor-glow"
+            class="cursor-glow"
+            aria-hidden="true"
+            transition:persist
+        >
+        </div>
+
+        <!-- Liquid mesh gradient -->
+        <div
+            class="mesh-gradient"
+            id="mesh-gradient"
+            aria-hidden="true"
+            transition:persist
+        >
+            <div class="mesh-blob mesh-blob--1"></div>
+            <div class="mesh-blob mesh-blob--2"></div>
+            <div class="mesh-blob mesh-blob--3"></div>
+            <div class="mesh-blob mesh-blob--4"></div>
+        </div>
+
+        <!-- Scroll progress bar -->
+        <div class="scroll-progress" id="scroll-progress" aria-hidden="true">
+        </div>
+
+        <!-- Floating particles -->
+        <canvas
+            id="particle-canvas"
+            class="particle-canvas"
+            aria-hidden="true"
+            transition:persist></canvas>
+        <script is:inline>
+            // Execute INSTANTLY the moment the canvas tag is parsed
+            (function () {
+                if (window.starsInitialized) return;
+                window.starsInitialized = true;
+
+                const canvas = document.getElementById("particle-canvas");
+                if (!canvas) return;
+
+                const ctx = canvas.getContext("2d");
+                let particles = [];
+                let w = 0,
+                    h = 0,
+                    time = 0;
+
+                const starColors = [
+                    "rgba(255,255,255,",
+                    "rgba(200,210,255,",
+                    "rgba(255,220,180,",
+                    "rgba(180,200,255,",
+                    "rgba(237,123,15,",
+                    "rgba(109,40,217,",
+                ];
+
+                function resize() {
+                    w = canvas.width = window.innerWidth;
+                    h = canvas.height = window.innerHeight;
+                }
+
+                function createParticles() {
+                    const count = Math.floor((w * h) / 12000);
+                    particles = [];
+                    for (let i = 0; i < count; i++) {
+                        const baseOpacity = Math.random() * 0.6 + 0.1;
+                        particles.push({
+                            x: Math.random() * w,
+                            y: Math.random() * h,
+                            vx: (Math.random() - 0.5) * 0.15,
+                            vy: (Math.random() - 0.5) * 0.15,
+                            r: Math.random() * 1.5 + 0.3,
+                            baseOpacity,
+                            opacity: baseOpacity,
+                            twinkleSpeed: Math.random() * 0.03 + 0.005,
+                            twinkleOffset: Math.random() * Math.PI * 2,
+                            color: starColors[
+                                Math.floor(Math.random() * starColors.length)
+                            ],
+                        });
+                    }
+                }
+
+                function draw() {
+                    requestAnimationFrame(draw);
+                    if (!ctx || window.preventCanvasDraw) return;
+
+                    ctx.clearRect(0, 0, w, h);
+                    time += 1;
+
+                    for (const p of particles) {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.opacity =
+                            p.baseOpacity +
+                            Math.sin(time * p.twinkleSpeed + p.twinkleOffset) *
+                                p.baseOpacity *
+                                0.6;
+
+                        if (p.x < -5) p.x = w + 5;
+                        if (p.x > w + 5) p.x = -5;
+                        if (p.y < -5) p.y = h + 5;
+                        if (p.y > h + 5) p.y = -5;
+
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color + Math.max(0, p.opacity) + ")";
+                        ctx.fill();
+
+                        if (p.r > 1 && p.opacity > 0.4) {
+                            ctx.beginPath();
+                            ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+                            ctx.fillStyle = p.color + p.opacity * 0.15 + ")";
+                            ctx.fill();
+                        }
+                    }
+                }
+
+                resize();
+                createParticles();
+                draw();
+
+                window.addEventListener("resize", () => {
+                    resize();
+                    createParticles();
+                });
+            })();
+        </script>
+
+        <!-- Shooting stars -->
+        <div class="shooting-star shooting-star--1" aria-hidden="true"></div>
+        <div class="shooting-star shooting-star--2" aria-hidden="true"></div>
+        <div class="shooting-star shooting-star--3" aria-hidden="true"></div>
+        <div class="shooting-star shooting-star--4" aria-hidden="true"></div>
+
+        <!-- Space elements: astronaut, satellite, planets, debris -->
+        <SpaceElements client:idle />
+
+        <div class="noise-overlay"></div>
+        <Navbar />
+        <main transition:animate="fade">
+            <slot />
+        </main>
+        <Footer />
+
+        <script is:inline data-astro-rerun>
+            // --- Cursor Glow Follow ---
+            const glow = document.getElementById("cursor-glow");
+            if (glow && window.matchMedia("(pointer: fine)").matches) {
+                let mouseX = 0,
+                    mouseY = 0;
+                let glowX = 0,
+                    glowY = 0;
+
+                document.addEventListener("mousemove", (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    if (!glow?.classList.contains("active")) {
+                        glow?.classList.add("active");
+                    }
+                });
+
+                document.addEventListener("mouseleave", () => {
+                    glow?.classList.remove("active");
+                });
+
+                function animateGlow() {
+                    glowX += (mouseX - glowX) * 0.07;
+                    glowY += (mouseY - glowY) * 0.07;
+                    if (glow) {
+                        glow.style.left = glowX + "px";
+                        glow.style.top = glowY + "px";
+                    }
+                    requestAnimationFrame(animateGlow);
+                }
+                animateGlow();
+            } else if (glow) {
+                glow.style.display = "none";
+            }
+
+            // --- Scroll Reveal Observer ---
+            const revealElements = document.querySelectorAll(
+                ".reveal, .reveal-left, .reveal-right",
+            );
+            if (revealElements.length) {
+                const revealObserver = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add("revealed");
+                                revealObserver.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.1, rootMargin: "0px 0px -60px 0px" },
+                );
+
+                revealElements.forEach((el) => revealObserver.observe(el));
+            }
+
+            // --- Hover Glow (card mouse tracking) ---
+            document.querySelectorAll(".hover-glow").forEach((card) => {
+                card.addEventListener("mousemove", (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty("--mouse-x", x + "px");
+                    card.style.setProperty("--mouse-y", y + "px");
+                });
+            });
+
+            // --- Mesh Gradient Parallax + Scroll Progress ---
+            const meshGradient = document.getElementById("mesh-gradient");
+            const scrollBar = document.getElementById("scroll-progress");
+            const blobs = meshGradient?.querySelectorAll(".mesh-blob");
+
+            if (meshGradient || scrollBar) {
+                let scrollTicking = false;
+
+                const updateScroll = () => {
+                    const scrollY = window.scrollY;
+                    const docHeight =
+                        document.documentElement.scrollHeight -
+                        window.innerHeight;
+                    const scrollPct = docHeight > 0 ? scrollY / docHeight : 0;
+
+                    // Scroll progress bar
+                    if (scrollBar) {
+                        scrollBar.style.width = scrollPct * 100 + "%";
+                    }
+
+                    // Pause background animations if scrolled past 150vh to save GPU
+                    if (scrollY > window.innerHeight * 1.5) {
+                        document.body.classList.add("animations-paused");
+                        window.preventCanvasDraw = true;
+                    } else {
+                        document.body.classList.remove("animations-paused");
+                        window.preventCanvasDraw = false;
+                    }
+
+                    // Parallax drift on mesh blobs
+                    if (blobs) {
+                        const speeds = [0.03, -0.02, 0.015, -0.025];
+                        blobs.forEach((blob, i) => {
+                            const drift = scrollY * (speeds[i] || 0.02);
+                            blob.style.transform = `translateY(${drift}px)`;
+                        });
+                    }
+
+                    scrollTicking = false;
+                };
+
+                window.addEventListener(
+                    "scroll",
+                    () => {
+                        if (!scrollTicking) {
+                            requestAnimationFrame(updateScroll);
+                            scrollTicking = true;
+                        }
+                    },
+                    { passive: true },
+                );
+
+                updateScroll();
+            }
+        </script>
+    </body>
+</html>

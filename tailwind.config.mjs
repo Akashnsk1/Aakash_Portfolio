@@ -1,0 +1,113 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+    darkMode: 'class',
+    theme: {
+        extend: {
+            colors: {
+                primary: {
+                    50: '#fef7ee',
+                    100: '#fdedd3',
+                    200: '#f9d6a5',
+                    300: '#f5b96d',
+                    400: '#f09332',
+                    500: '#ed7b0f',
+                    600: '#de6309',
+                    700: '#b84a0a',
+                    800: '#933b10',
+                    900: '#773310',
+                    950: '#401806',
+                },
+                accent: {
+                    50: '#f0fdf0',
+                    100: '#dcfce2',
+                    200: '#bbf7c5',
+                    300: '#86ef99',
+                    400: '#4ade65',
+                    500: '#22c53e',
+                    600: '#16a330',
+                    700: '#158029',
+                    800: '#166525',
+                    900: '#145321',
+                    950: '#052e0f',
+                },
+                neutral: {
+                    50: '#fafaf9',
+                    100: '#f5f5f4',
+                    200: '#e7e5e4',
+                    300: '#d6d3d1',
+                    400: '#a8a29e',
+                    500: '#78716c',
+                    600: '#57534e',
+                    700: '#44403c',
+                    800: '#292524',
+                    900: '#1c1917',
+                    950: '#0c0a09',
+                },
+                surface: {
+                    light: '#f0f0f5',
+                    dark: '#050510',
+                },
+            },
+            fontFamily: {
+                heading: ['"Syne"', 'sans-serif'],
+                body: ['"Manrope"', 'sans-serif'],
+                mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            animation: {
+                'float': 'float 6s ease-in-out infinite',
+                'float-slow': 'float 8s ease-in-out infinite',
+                'float-delayed': 'float 6s ease-in-out 2s infinite',
+                'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
+                'grain': 'grain 8s steps(10) infinite',
+                'marquee': 'marquee 30s linear infinite',
+                'marquee-reverse': 'marquee-reverse 30s linear infinite',
+                'spin-slow': 'spin 30s linear infinite',
+                'spin-slow-reverse': 'spin-reverse 35s linear infinite',
+            },
+            keyframes: {
+                float: {
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-20px)' },
+                },
+                'pulse-subtle': {
+                    '0%, 100%': { opacity: '1' },
+                    '50%': { opacity: '0.7' },
+                },
+                grain: {
+                    '0%, 100%': { transform: 'translate(0, 0)' },
+                    '10%': { transform: 'translate(-5%, -10%)' },
+                    '20%': { transform: 'translate(-15%, 5%)' },
+                    '30%': { transform: 'translate(7%, -25%)' },
+                    '40%': { transform: 'translate(-5%, 25%)' },
+                    '50%': { transform: 'translate(-15%, 10%)' },
+                    '60%': { transform: 'translate(15%, 0%)' },
+                    '70%': { transform: 'translate(0%, 15%)' },
+                    '80%': { transform: 'translate(3%, 35%)' },
+                    '90%': { transform: 'translate(-10%, 10%)' },
+                },
+                marquee: {
+                    '0%': { transform: 'translateX(0%)' },
+                    '100%': { transform: 'translateX(-100%)' },
+                },
+                'marquee-reverse': {
+                    '0%': { transform: 'translateX(-100%)' },
+                    '100%': { transform: 'translateX(0%)' },
+                },
+                'spin-reverse': {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(-360deg)' },
+                },
+            },
+            backgroundImage: {
+                'grid-pattern': 'linear-gradient(to right, rgba(120,113,108,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(120,113,108,0.1) 1px, transparent 1px)',
+                'dot-pattern': 'radial-gradient(circle, rgba(120,113,108,0.15) 1px, transparent 1px)',
+            },
+            backgroundSize: {
+                'grid': '60px 60px',
+                'dot': '24px 24px',
+            },
+        },
+    },
+    plugins: [],
+};
