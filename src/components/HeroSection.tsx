@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
     SiAmazonwebservices,
     SiDocker,
@@ -25,7 +25,7 @@ const techOrbit = [
 
 const roles = ['Associate Software Engineer', 'Cloud & Platform Engineer', 'Infrastructure Automation', 'Full-Stack Developer'];
 
-function useTypingEffect(words: string[], typingSpeed = 80, deletingSpeed = 50, pauseDuration = 2000) {
+function useTypingEffect(words: string[], typingSpeed = 100, deletingSpeed = 60, pauseDuration = 2000) {
     const [text, setText] = useState('');
     const [wordIndex, setWordIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -55,11 +55,8 @@ function useTypingEffect(words: string[], typingSpeed = 80, deletingSpeed = 50, 
 
 const floatingSnippets = [
     { text: '$ terraform apply -auto-approve', x: '8%', y: '15%', delay: 0 },
-    { text: '$ kubectl get pods --all-namespaces', x: '75%', y: '20%', delay: 1.5 },
-    { text: '$ docker compose up -d', x: '85%', y: '70%', delay: 3 },
-    { text: '$ git push origin main', x: '5%', y: '75%', delay: 2 },
-    { text: '✓ all 47 tests passed', x: '60%', y: '85%', delay: 4 },
-    { text: '✓ deployed to production', x: '20%', y: '90%', delay: 2.5 },
+    { text: '$ kubectl get pods', x: '75%', y: '20%', delay: 1.5 },
+    { text: '$ docker compose up', x: '85%', y: '70%', delay: 3 },
 ];
 
 export default function HeroSection() {
@@ -70,20 +67,20 @@ export default function HeroSection() {
             {/* Dot grid background */}
             <div className="absolute inset-0 bg-dot-pattern bg-dot opacity-30 dark:opacity-15" />
 
-            {/* Ambient glows */}
-            <div className="absolute -top-20 right-[10%] w-[500px] h-[500px] bg-primary-500/[0.08] dark:bg-primary-500/[0.05] rounded-full blur-[180px] animate-float-slow" />
-            <div className="absolute bottom-[5%] -left-20 w-[400px] h-[400px] bg-accent-500/[0.06] dark:bg-accent-500/[0.03] rounded-full blur-[150px] animate-float-delayed" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-400/[0.03] dark:bg-primary-400/[0.02] rounded-full blur-[200px]" />
+            {/* Ambient glows - optimized */}
+            <div className="absolute -top-20 right-[10%] w-[500px] h-[500px] bg-primary-500/[0.05] dark:bg-primary-500/[0.03] rounded-full blur-[180px] animate-float-slow will-change-transform" />
+            <div className="absolute bottom-[5%] -left-20 w-[400px] h-[400px] bg-accent-500/[0.04] dark:bg-accent-500/[0.02] rounded-full blur-[150px] animate-float-delayed will-change-transform" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-400/[0.02] dark:bg-primary-400/[0.01] rounded-full blur-[200px]" />
 
             {/* Floating code snippets */}
             {floatingSnippets.map((snippet, i) => (
                 <motion.span
                     key={i}
-                    className="absolute font-mono text-[10px] text-neutral-300/50 dark:text-neutral-700/40 select-none pointer-events-none whitespace-nowrap hidden md:block"
+                    className="absolute font-mono text-[10px] text-neutral-300/50 dark:text-neutral-700/40 select-none pointer-events-none whitespace-nowrap hidden md:block will-change-transform"
                     style={{ left: snippet.x, top: snippet.y }}
                     initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: [0, 0.6, 0], y: [10, -20, -40] }}
-                    transition={{ delay: snippet.delay, duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+                    animate={{ opacity: [0, 0.5, 0], y: [10, -25, -50] }}
+                    transition={{ delay: snippet.delay, duration: 12, repeat: Infinity, ease: 'easeInOut' }}
                 >
                     {snippet.text}
                 </motion.span>
@@ -243,11 +240,11 @@ export default function HeroSection() {
                             </div>
 
                             <motion.div
-                                className="absolute inset-0"
+                                className="absolute inset-0 will-change-transform"
                                 animate={{ rotate: 360 }}
-                                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+                                transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
                             >
-                                {techOrbit.map((tech, i) => {
+                                {techOrbit.slice(0, 4).map((tech, i) => {
                                     const angle = (i / techOrbit.length) * 360;
                                     const radius = typeof window !== 'undefined' && window.innerWidth >= 768 ? 155 : 120;
                                     const x = Math.cos((angle * Math.PI) / 180) * radius;
@@ -277,11 +274,11 @@ export default function HeroSection() {
                             </motion.div>
 
                             <motion.div
-                                className="absolute inset-0"
+                                className="absolute inset-0 will-change-transform"
                                 animate={{ rotate: -360 }}
-                                transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+                                transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
                             >
-                                {[0, 90, 180, 270].map((deg) => {
+                                {[0, 90].map((deg) => {
                                     const r = typeof window !== 'undefined' && window.innerWidth >= 768 ? 185 : 145;
                                     const dx = Math.cos((deg * Math.PI) / 180) * r;
                                     const dy = Math.sin((deg * Math.PI) / 180) * r;
