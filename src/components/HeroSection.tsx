@@ -63,14 +63,7 @@ export default function HeroSection() {
     const typedRole = useTypingEffect(roles);
 
     return (
-        <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-            {/* Dot grid background */}
-            <div className="absolute inset-0 bg-dot-pattern bg-dot opacity-30 dark:opacity-15" />
-
-            {/* Ambient glows - optimized */}
-            <div className="absolute -top-20 right-[10%] w-[500px] h-[500px] bg-primary-500/[0.05] dark:bg-primary-500/[0.03] rounded-full blur-[180px] animate-float-slow will-change-transform" />
-            <div className="absolute bottom-[5%] -left-20 w-[400px] h-[400px] bg-accent-500/[0.04] dark:bg-accent-500/[0.02] rounded-full blur-[150px] animate-float-delayed will-change-transform" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-400/[0.02] dark:bg-primary-400/[0.01] rounded-full blur-[200px]" />
+        <section className="hero-section relative min-h-screen flex flex-col justify-center overflow-hidden">
 
             {/* Floating code snippets */}
             {floatingSnippets.map((snippet, i) => (

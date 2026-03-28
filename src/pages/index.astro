@@ -13,9 +13,29 @@ import CTASection from "../components/CTASection";
 	description="Akash is an Associate Software Engineer specializing in Cloud Infrastructure, DevOps, CI/CD, and Full-Stack Development. Explore my projects and contact me for freelance work."
 >
 	<HeroSection client:load />
-	<MarqueeSection client:visible />
-	<AboutPreview client:visible />
-	<FeaturedProjects client:visible />
-	<TechStackSection client:visible />
-	<CTASection client:visible />
+	
+	<section class="section-space about-space">
+		<div class="section-content">
+			<MarqueeSection client:visible />
+			<AboutPreview client:visible />
+		</div>
+	</section>
+	
+	<section class="section-space projects-space">
+		<div class="section-content">
+			<FeaturedProjects client:visible />
+		</div>
+	</section>
+	
+	<section class="section-space skills-space">
+		<div class="section-content">
+			<TechStackSection client:visible />
+		</div>
+	</section>
+	
+	<section class="section-space contact-space">
+		<div class="section-content">
+			<CTASection client:visible />
+		</div>
+	</section>
 </Layout>
